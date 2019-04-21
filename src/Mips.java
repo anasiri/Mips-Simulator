@@ -13,7 +13,7 @@ public class Mips {
     public Mips(){
         pCounter =0;
         alu = new ALU();
-        File file = new File("./src/RegFile.txt");
+        File file = new File("./src/Test File/RegFile.txt");
         Scanner sc = null;
         try {
             sc = new Scanner(file);
@@ -26,7 +26,7 @@ public class Mips {
             regFile[i++] = sc.nextLine().toCharArray();
         }
         //data memory
-        file = new File("./src/DataMemory.txt");
+        file = new File("./src/Test File/DataMemory.txt");
         try {
             sc = new Scanner(file);
         } catch (FileNotFoundException e) {
@@ -38,7 +38,7 @@ public class Mips {
             dataMemory[i++] = sc.nextLine().toCharArray();
         }
 
-        file = new File("./src/ProgramMemory.txt");
+        file = new File("./src/Test File/ProgramMemory.txt");
         try {
             sc = new Scanner(file);
         } catch (FileNotFoundException e) {
@@ -89,7 +89,7 @@ public class Mips {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        System.out.println(opcodes.toString());
         switch (opcodes){
             case add:{
                 try {
@@ -210,11 +210,11 @@ public class Mips {
             case notInstrucion:{
                 throw new Exception("not an instruction!");
             }
-
         }
     }
 
     private void add(int dstIndex,int src1Index,int src2Index) throws Exception {
+        if(dstIndex==0)throw new RegristerZeroReadable();
         alu.setInput1(regFile[src1Index]);
         alu.setInput2(regFile[src2Index]);
         alu.setAluCode(AluCode.ADD);
@@ -223,6 +223,7 @@ public class Mips {
         regFile[dstIndex] = Util.decToBin(sum,true,true);
     }
     private void sub(int dstIndex,int src1Index,int src2Index) throws Exception {
+        if(dstIndex==0)throw new RegristerZeroReadable();
         alu.setInput1(regFile[src1Index]);
         alu.setInput2(regFile[src2Index]);
         alu.setAluCode(AluCode.SUB);
@@ -231,6 +232,7 @@ public class Mips {
         regFile[dstIndex] = Util.decToBin(sum,true,true);
     }
     private void or(int dstIndex,int src1Index,int src2Index) throws Exception {
+        if(dstIndex==0)throw new RegristerZeroReadable();
         alu.setInput1(regFile[src1Index]);
         alu.setInput2(regFile[src2Index]);
         alu.setAluCode(AluCode.OR);
@@ -239,6 +241,7 @@ public class Mips {
         regFile[dstIndex] = Util.decToBin(sum,true,true);
     }
     private void and(int dstIndex,int src1Index,int src2Index) throws Exception {
+        if(dstIndex==0)throw new RegristerZeroReadable();
         alu.setInput1(regFile[src1Index]);
         alu.setInput2(regFile[src2Index]);
         alu.setAluCode(AluCode.AND);
@@ -247,6 +250,7 @@ public class Mips {
         regFile[dstIndex] = Util.decToBin(sum,true,true);
     }
     private void slt(int dstIndex,int src1Index,int src2Index) throws Exception {
+        if(dstIndex==0)throw new RegristerZeroReadable();
         alu.setInput1(regFile[src1Index]);
         alu.setInput2(regFile[src2Index]);
         alu.setAluCode(AluCode.SUB);
@@ -272,7 +276,7 @@ public class Mips {
     private void Sw(int base, int regIndex, int immediate) throws Exception {
         int addr;
         alu.setInput1(regFile[base]);
-        alu.setInput2(Util.decToBin(immediate,true,true));
+        alu.setInput2(Util.decToBin(immediate/4,true,true));
         alu.setAluCode(AluCode.ADD);
         alu.update();
         addr = Util.binToDec(alu.getOutput(),true);
@@ -283,9 +287,10 @@ public class Mips {
 
     }
     private void Lw(int base, int regIndex, int immediate) throws Exception {
+        if(regIndex==0)throw new RegristerZeroReadable();
         int addr;
         alu.setInput1(regFile[base]);
-        alu.setInput2(Util.decToBin(immediate,true,true));
+        alu.setInput2(Util.decToBin(immediate/4,true,true));
         alu.setAluCode(AluCode.ADD);
         alu.update();
         addr = Util.binToDec(alu.getOutput(),true);
@@ -297,6 +302,7 @@ public class Mips {
 
     }
     private void Addi(int dstIndex, int srcIndex, int immediate) throws Exception {
+        if(dstIndex==0)throw new RegristerZeroReadable();
         alu.setInput1(regFile[srcIndex]);
         alu.setInput2(Util.decToBin(immediate,true,true));
         alu.setAluCode(AluCode.ADD);
@@ -305,7 +311,8 @@ public class Mips {
         regFile[dstIndex] = Util.decToBin(val,true,true);
 
     }
-    private void Slti(int dstIndex, int srcIndex, int immediate) {
+    private void Slti(int dstIndex, int srcIndex, int immediate) throws Exception {
+        if(dstIndex==0)throw new RegristerZeroReadable();
         alu.setInput1(regFile[srcIndex]);
         alu.setInput2(Util.decToBin(immediate,true,true));
         alu.setAluCode(AluCode.SUB);
@@ -317,6 +324,7 @@ public class Mips {
         }
     }
     private void Andi(int dstIndex, int srcIndex, int immediate) throws Exception {
+        if(dstIndex==0)throw new RegristerZeroReadable();
         alu.setInput1(regFile[srcIndex]);
         alu.setInput2(Util.decToBin(immediate,true,true));
         alu.setAluCode(AluCode.AND);
@@ -325,6 +333,7 @@ public class Mips {
         regFile[dstIndex] = Util.decToBin(val,true,true);
     }
     private void Ori(int dstIndex, int srcIndex, int immediate) throws Exception {
+        if(dstIndex==0)throw new RegristerZeroReadable();
         alu.setInput1(regFile[srcIndex]);
         alu.setInput2(Util.decToBin(immediate,true,true));
         alu.setAluCode(AluCode.OR);

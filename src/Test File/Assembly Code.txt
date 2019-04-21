@@ -1,0 +1,32 @@
+sw $s0,0($t0)
+sw $s1,4($t0)
+sw $s2,8($t0)
+sw $s3,12($t0)
+sw $s4,16($t0)
+sw $s5,20($t0)
+sw $s6,24($t0)
+sw $s7,28($t0)
+sw $t1,32($t0)
+sw $t2,36($t0)
+
+add $t3,$s0,$zero  //min = A[0]
+add $t4,$s0,$zero  //max = A[0]
+
+add $t5,$zero,$zero // int i = 0
+L3:
+add $t6,$t0,$t5    // i+addr
+lw $t6, 0($t6)     //a[i]
+slt $t7 $t4,$t6  //max <a[i]
+beq $t7,$zero, L1 //max<a[i]==false
+add $t4,$t6,$zero  //max = a[i]
+J L2
+L1:
+slt $t7,$t6,$t3    //a[i] <min
+beq $t7,$zero,L2   //a[i] <min == false
+add $t3,$t6,$zero  //min = a[i]
+L2:
+addi $t5,$t5,1     //i++
+slti $t8,$t5,10    //i<10
+bnq $t8,$zero,L3   //i<10 != false	
+sw $t3,0($t0)
+sw $t4,4($t0)

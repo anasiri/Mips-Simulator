@@ -1,4 +1,6 @@
 import java.lang.Math;
+import java.util.Random;
+
 public class Util {
 
     public static int binToDec(char [] input,boolean signed) throws Exception {
@@ -68,6 +70,28 @@ public class Util {
         result = result.replace("1", "0"); //replace 1s with 0s
         result = result.replace(" ", "1"); //put the 1s back in
         return result.toCharArray();
+    }
+    public static String randomDataGenerator(int count){
+        String st = "";
+        for(int j = 0 ;j<count;j++){
+            String s ="";
+            for(int i =0;i<32;i++){
+                Random random = new Random();
+                int x = random.nextInt();
+                x = Math.abs(x%2);
+                if(x==0){
+                    s = s.concat("0");
+                }
+                else if(x==1){
+                    s = s.concat("1");
+                }
+                else{
+                    s = s.concat("|");
+                }
+            }
+            st = st.concat(s+"\n");
+        }
+        return st;
     }
     private static boolean isBinary(char[] input) {
         boolean notBinary = false;
