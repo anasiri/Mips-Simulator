@@ -60,11 +60,12 @@ public class ReadTools {
                     String myString = code.get(i);
                     int index = myString.indexOf(hh.substring(0, hh.length() - 1));
                     if (myString.startsWith("j")) {
-                        myString = myString.substring(0, index - 1) + " " + mapcode.get(hh);
+                        myString = myString.substring(0, index - 1) + " " + mapcode.get(hh);//todo need *4
                     } else {
                         int howMuchGo=mapcode.get(hh)-i;
                         howMuchGo--;
-                        myString = myString.substring(0, index - 1) + " "+ (howMuchGo);
+                            myString = myString.substring(0, index - 1) + " "+ (howMuchGo);//todo need *4
+
                     }
                     code.remove(i);
                     code.add(i, myString);

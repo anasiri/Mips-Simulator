@@ -56,13 +56,19 @@ public class RegestersControler {
         return temp.toString();
     }
     public static String intToBinarysign(int source, int len) {
-        StringBuilder temp = new StringBuilder(Integer.toBinaryString(Math.abs(source)));
+        StringBuilder temp = new StringBuilder(Integer.toBinaryString((source)));
         char sign='0';
         if (source<0){
             sign='1';
         }
         while (temp.length() < len) {
             temp.insert(0, sign);
+        }
+        if (temp.length()>len){
+            StringBuilder t=new StringBuilder(temp);
+            t.reverse();
+            StringBuilder t2=new StringBuilder(t.substring(0,len));
+            return t2.reverse().toString();
         }
         return temp.toString();
     }
